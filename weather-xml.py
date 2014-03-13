@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 import requests
 from lxml import etree
 from jinja2 import Template
@@ -15,14 +15,14 @@ for linea in f:
 
 plantilla = Template(html)
 
-ciudades = ["Almeria","Cadiz","Cordoba","Granada","Huelva","Jaen","Malaga","Sevilla","Dos Hermanas"]
-tempe_min = []
-tempe_max = []
-viento_vel = []
-viento_direc = []
+ciudades = ["Almeria","Cadiz","Cordoba","Granada","Huelva","Jaen","Malaga","Sevilla"]
+temperatura_min = []
+temperatura_max = []
+velocidad_viento = []
+direccion_viento = []
 
 for ciudad in ciudades:
-	valores = {'q': '%s,spain' % ciudadp,'mode': 'xml','units': 'metric','lang': 'es'}
+	valores = {'q': '%s,spain' % ciudad,'mode': 'xml','units': 'metric','lang': 'es'}
 	respuesta = requests.get('http://api.openweathermap.org/data/2.5/weather',params=valores)
 
 	raiz = etree.fromstring(respuesta.text.encode("utf-8"))	
@@ -37,12 +37,12 @@ for ciudad in ciudades:
 	viento2 = round(float(viento.attrib["value"]),1)
 	direccion = raiz.find("wind/direction")
 	direccion2 = direccion.attrib["code"]
-	tempe_min.append(tempemin2)
-	tempe_max.append(tempemax2)
-	viento_vel.append(viento2)
-	viento_direc.append(direccion2)
+	temperatura_min.append(tempemin2)
+	temperatura_max.append(tempemax2)
+	velocidad_viento.append(viento2)
+	direccion_viento.append(direccion2)
 
-tiempo = plantilla.render(ciudadp=ciudades,temp_max=tempe_max,temp_min=tempe_min,speed=viento_vel,direccion=viento_direc)
+tiempo = plantilla.render(ciudad=ciudades,temp_max=temperatura_max,temp_min=temperatura_min,speed=velocidad_viento,direccion=direccion_viento)
 fichero = open('tiempo.html','w')
 fichero.write(tiempo)
 fichero.close()
