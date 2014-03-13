@@ -1,0 +1,22 @@
+<?xml version="1.0"   encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+	<head>
+		<title>Tiempo en Andalucia</title>
+	</head>
+	<body>
+		<h1>El Tiempo en Andalucia</h1>
+		{% set contador = 0 %}
+		{% for ciudad in ciudad%}
+		<h2>{{ ciudad }}</h2>
+		<ul>
+			<li>Temperatura minima: {{ temp_min[contador] }} C</li>
+			<li>Temperatura maxima: {{ temp_max[contador] }} C</li>	
+			<li>Viento: {{ speed[contador] }} Km/h</li>
+			<li>Direccion: {{ direccion[contador] }} </li>
+		</ul>
+		{% set contador = contador + 1 %}
+		{% endfor %}
+	</body>
+</html>
+
